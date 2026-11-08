@@ -29,7 +29,7 @@ The controller reports the target temperature. It does not report a measured cab
 
 ## Heater address
 
-The Linux BLE address of the heater named `SAUNA-BLE` is `45:DB:0C:2B:88:B6`. Set `SOLARA_BLE_ID` to that address, or pass `--device`. The default address in `controller.py` is a macOS identifier.
+Set `SOLARA_BLE_ID`, or pass `--device`, to select the heater. The default address in `controller.py` is a macOS identifier. This repository does not store the address of a heater.
 
 ## Commands
 
