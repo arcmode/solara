@@ -1,0 +1,20 @@
+[project]
+name = "solara"
+version = "1.0.0"
+description = "SaunaBox Solara BLE controller and local agent tools"
+requires-python = ">=3.12"
+dependencies = [
+    "bleak>=1.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.25",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"

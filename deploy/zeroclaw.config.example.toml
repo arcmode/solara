@@ -1,0 +1,119 @@
+# Example ZeroClaw config. The live file is ~/.zeroclaw/config.toml.
+# Do not put a Telegram bot token in this file.
+
+schema_version = 3
+
+[gateway]
+host = "127.0.0.1"
+allow_public_bind = false
+
+[tools]
+optional = []
+
+[memory]
+backend = "none"
+embedding_provider = "none"
+auto_save = false
+
+[providers.models.ollama.local]
+model = "qwen3.5:4b"
+uri = "http://127.0.0.1:11434"
+num_ctx = 8192
+context_window = 8192
+num_predict = 768
+temperature = 0.1
+temperature_override = 0.1
+think = false
+native_tools = true
+timeout_secs = 300
+
+[agents.sauna]
+enabled = true
+model_provider = "ollama.local"
+risk_profile = "sauna"
+runtime_profile = "sauna"
+mcp_bundles = ["sauna"]
+skill_bundles = ["sauna"]
+channels = ["telegram.home"]
+
+[agents.sauna.identity]
+format = "openclaw"
+
+[agents.sauna.workspace]
+path = "/home/david/code/solara"
+unrestricted_filesystem = false
+
+[risk_profiles.sauna]
+level = "full"
+workspace_only = true
+require_approval_for_medium_risk = false
+block_high_risk_commands = true
+allowed_commands = []
+auto_approve = []
+allowed_tools = [
+    "solara__sauna_status",
+    "solara__sauna_preheat",
+    "solara__sauna_off",
+    "solara__sauna_set_temperature",
+    "solara__sauna_set_timer",
+]
+excluded_tools = [
+    "shell",
+    "file_read",
+    "file_write",
+    "file_edit",
+    "glob_search",
+    "content_search",
+    "http_request",
+    "web_search_tool",
+    "web_fetch",
+    "browser",
+    "memory_recall",
+    "memory_store",
+    "delegate",
+    "spawn_subagent",
+]
+
+[runtime_profiles.sauna]
+agentic = true
+strict_tool_parsing = true
+max_tool_iterations = 3
+max_history_messages = 8
+max_context_tokens = 7000
+max_system_prompt_chars = 8000
+max_tool_result_chars = 2000
+parallel_tools = false
+agentic_timeout_secs = 900
+delegation_timeout_secs = 30
+keep_tool_context_turns = 1
+memory_recall_limit = 0
+
+[runtime_profiles.sauna.thinking]
+default_level = "off"
+native_thinking = false
+
+[mcp]
+enabled = true
+
+[[mcp.servers]]
+name = "solara"
+transport = "stdio"
+command = "/home/david/code/solara/.venv/bin/python"
+args = ["/home/david/code/solara/src/sauna_mcp.py"]
+tool_timeout_secs = 900
+
+[mcp_bundles.sauna]
+servers = ["solara"]
+
+[skill_bundles.sauna]
+directory = "skills"
+include = ["sauna"]
+
+[channels.telegram.home]
+enabled = false
+mention_only = true
+passive_group_context = false
+
+[skills]
+allow_scripts = false
+open_skills_enabled = false
