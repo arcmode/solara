@@ -1,6 +1,8 @@
-# Sauna agent
+# Sauna tools
 
-This laptop runs a local sauna agent. You send a Telegram message. ZeroClaw reads the message. Ollama runs Qwen3.5 4B on the NVIDIA GPU. A Python tool sends the command to the SaunaBox Solara controller.
+This repository holds the SaunaBox Solara tools. The Telegram bot workspace is `~/code/home-agent`. ZeroClaw reads the bot identity and the shell rules from that repository. It loads the sauna skill through a symlink to `skills/sauna` in this repository.
+
+You send a Telegram message. ZeroClaw reads the message. Ollama runs Qwen3.5 4B on the NVIDIA GPU. A Python tool sends the command to the SaunaBox Solara controller.
 
 The agent does not use a hosted language model.
 
@@ -8,10 +10,12 @@ The agent does not use a hosted language model.
 
 | Part | Role | Location |
 | --- | --- | --- |
+| Home agent | Bot workspace | `~/code/home-agent` |
 | Ollama 0.40.15 | Local model server | `~/.local/bin/ollama` |
 | Qwen3.5 4B | Language model | `~/.ollama/models` |
 | ZeroClaw 0.8.7 | Agent and Telegram channel | `~/.local/bin/zeroclaw` |
 | Sauna tools | Validated operations | `src/sauna_mcp.py` |
+| Sauna skill | Heater rules for the model | `skills/sauna/SKILL.md` |
 | BLE controller | Heater protocol | `src/controller.py` |
 
 Ollama listens on `127.0.0.1:11434`. ZeroClaw calls the native Ollama `/api/chat` API. The gateway listens on `127.0.0.1:42617`.
@@ -123,7 +127,7 @@ The controller reports the target temperature. It does not report a measured cab
 
 The Linux BLE address of the heater named `SAUNA-BLE` is `45:DB:0C:2B:88:B6`. The live ZeroClaw config passes it as `SOLARA_BLE_ID`. The default address in `controller.py` is a macOS identifier. On Linux, set `SOLARA_BLE_ID` or pass `--device`.
 
-Rules for the model are in `SOUL.md` and `skills/sauna/SKILL.md`.
+Heater rules for the model are in `skills/sauna/SKILL.md`. The bot identity and the shell rules are in `~/code/home-agent`.
 
 ## Diagnosis
 
